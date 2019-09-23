@@ -31,6 +31,8 @@ export const withFilter = (asyncIteratorFn: ResolverFn, filterFn: FilterFn): Res
                 });
             })
             .catch((err) => {
+              // tslint:disable-next-line: no-console
+              console.log('DEBUG: with-filter in graphql-subscriptions: asyncIterator.next() returned error');
               reject(err);
               return;
             });
