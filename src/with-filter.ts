@@ -27,14 +27,17 @@ export const withFilter = (asyncIteratorFn: ResolverFn, filterFn: FilterFn): Res
                   }
                   // Skip the current value and wait for the next one
                   inner();
+                  return;
                 });
-            }).catch((err) => {
+            })
+            .catch((err) => {
               reject(err);
               return;
             });
         };
 
         inner();
+
       });
     };
 
