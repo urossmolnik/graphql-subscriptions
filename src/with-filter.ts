@@ -10,9 +10,7 @@ export const withFilter = (asyncIteratorFn: ResolverFn, filterFn: FilterFn): Res
     const getNextPromise = () => {
       return new Promise<IteratorResult<any>>((resolve, reject) => {
 
-        let recursionCount = 0;
         const inner = () => {
-          recursionCount += 1;
           asyncIterator
             .next()
             .then(payload => {
@@ -28,15 +26,11 @@ export const withFilter = (asyncIteratorFn: ResolverFn, filterFn: FilterFn): Res
                     return;
                   }
                   // Skip the current value and wait for the next one
-                  if (recursionCount < 100) {
-                    inner();
-                  } else {
-                    recursionCount = 0;
-                    process.nextTick(inner);
-                  }
+                  inner();
                 });
             }).catch((err) => {
               reject(err);
+              return;
             });
         };
 
